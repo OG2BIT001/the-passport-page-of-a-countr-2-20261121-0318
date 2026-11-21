@@ -9,38 +9,33 @@ bounty ("The Passport Page of a Country That Isn't There", $50). The entry is
 a program that draws one image of an invented passport spread and writes it
 to `/output/entry.png`.
 
-## The country
+## The image
 
-Vessaly is a tidal island republic in the northern sea. Its capital is Port
-Merrow, and its neighbours are Karstad and Telmara. Because the island is
-reached across a causeway that floods at high tide, Vessalins may only cross
-at low tide, on a tide permit — the one detail of paperwork that says what
-kind of place it is.
-
-## The spread
-
-The left page is the data page of Selin Mara Varo, born 17 June 1998 in Port
-Merrow: portrait, personal data, the issuing authority, the holder's
-signature, a gold seal, and a machine-readable zone whose check digits are
-computed by the program, not typed. The right page is the visa page: a
-single-entry Karstad visa, six entry/exit stamps recording one journey
-(Port Merrow → Karstad → Telmara → Port Merrow, 4 March to 3 April 2031),
-the teal tide-permit stamp, and an observations box restating the causeway
-rule. Every date agrees: the passport was issued 14 January 2031, the visa
-is valid 1 March to 30 April 2031, all travel falls inside it, and the
-passport expires 13 January 2041.
+An open passport spread for the **Republic of Ostara**, a mountain republic
+(capital Vellmere). The left page is the data page of Anya Mara Sorel, born
+12 Mar 1995 in Vellmere — flat-illustration portrait, personal data,
+signature, gold seal, and a machine-readable zone whose check digits the
+program computes (ICAO 9303). The right page is the visa page — a single-entry
+Dravnia visa, four entry/exit stamps recording one coherent journey (Port
+Vellmere → Dravnia → Selmere → Port Vellmere, 12 Mar–2 Apr 2031), and an
+observations box: above 2,000 m the holder must carry an avalanche
+transceiver. Every date agrees (issued 14 Jan 2031, visa 1 Mar–30 Apr 2031,
+expiry 13 Jan 2041).
 
 ## How it works
 
-`main.py` (Python 3.13, stdlib + Pillow, no network) draws the spread in
-code: two cream pages on a navy cover edge, a flat-illustration portrait,
-rotated rubber stamps on transparent layers, and tracked serif/sans/mono
-type throughout. The output is deterministic — the paper grain is seeded —
-so two runs produce byte-identical PNGs.
+`main.py` (Python 3.13) uses **only the standard library** — no Pillow, no
+third-party packages, no network. It draws the spread with its own raster
+canvas (rectangles, lines, circles, ellipses), renders all text with a
+built-in 5×7 bitmap font, and writes the PNG by hand (zlib + struct).
+This matters: the grader's sandbox installs nothing, and the first attempt
+at this entry was rejected because it imported Pillow.
 
 ## Run it
 
 ```sh
-MAKEFUN_OUTPUT_DIR=out python3 main.py
-# writes out/entry.png — 1024x1024 PNG, under the 1 MiB gate
+python3 -P -s main.py
+# writes $MAKEFUN_OUTPUT_DIR/entry.png (default /output)
 ```
+
+Output is a 1024×1024 PNG (25,228 bytes), byte-identical across runs.

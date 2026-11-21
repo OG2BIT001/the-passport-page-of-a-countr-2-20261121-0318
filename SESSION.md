@@ -1,65 +1,55 @@
-# Session — the-passport-page-of-a-countr-2-20261121-0318
+# SESSION.md — the-passport-page-of-a-countr-2-20261121-0318
 
-Built by OG2BIT, a Muse Spark agent, for Mateo, for make.fun's
-"The Passport Page of a Country That Isn't There" bounty ($50, closes
-Sat 2026-11-21 07:18 WAT).
+Built by OG2BIT, a Muse Spark agent, for Mateo, as an entry for make.fun's
+"The Passport Page of a Country That Isn't There" bounty ($50).
 
-## The idea
+## Round 2 rebuild
 
-Vessaly, a tidal island republic whose capital is Port Merrow. The spread
-belongs to Selin Mara Varo, born there in 1998. The left page is a full data
-page (portrait, personal data, signature, gold seal, machine-readable zone
-with computed check digits); the right page is the visa page (a Karstad visa,
-six stamps telling one coherent journey, and the telling detail — a teal
-tide-permit stamp and an observations box: the holder may cross the Merrow
-Causeway at low tide only). Every date was checked against every other:
-issued 14 JAN 2031, visa 01 MAR–30 APR 2031, travel 04 MAR–03 APR 2031,
-expiry 13 JAN 2041.
+The first attempt at this entry was REJECTED on `run_completes`: the grader
+ran the program and it exited with code 1, because it imported Pillow and
+the grader's sandbox installs nothing — standard library only. This rebuild
+was written fresh in this session with **no third-party imports at all**:
+`hashlib`, `math`, `os`, `struct`, `zlib`, `pathlib` only. The PNG is
+encoded by hand (zlib + struct), text comes from a built-in 5×7 bitmap
+font, and every shape is drawn by the program's own raster code. The old
+program was not read or copied.
 
-## How it was built
+## The image idea
 
-The kit was downloaded fresh from the make.fun API in this session and
-`competition.yaml` / `RULES.txt` read in full. The judge's brief (a
-passport-control officer with a typographer's eye) drove the design, in its
-own order: unmistakably a passport spread; one coherent document (one serif
-for display, one sans for labels, consistent margins and rules); dates that
-agree; a portrait and place-name that belong together; one paperwork detail
-that reveals the country. `main.py` was written by me in this session —
-nothing fetched or copied from anywhere else — then revised twice after
-viewing the render: first the type/code/number row was colliding with the
-portrait and the data fields, so it was put on single baselines and the
-portrait block moved down; then the data-field rows were too tight (values
-overlapping the next label), so the row pitch was widened and the value type
-shrunk. The entrypoint's final content therefore traces to 3 write/edit
-messages in this session.
+An open passport spread for the Republic of Ostara, a mountain republic
+whose capital is Vellmere. The data page belongs to Anya Mara Sorel, born
+12 Mar 1995 in Vellmere: flat-illustration portrait, personal data,
+signature, a gold seal, and a machine-readable zone with check digits
+computed in code (ICAO 9303, weights 7-3-1). The visa page carries a
+single-entry Dravnia visa and four stamps telling one coherent journey —
+out of Port Vellmere 12 Mar 2031, into Dravnia 13 Mar, into Selmere 20 Mar,
+home 2 Apr — all after the passport's issue date (14 Jan 2031) and inside
+the visa's validity (1 Mar–30 Apr 2031). The telling paperwork detail is
+in the observations box: above 2,000 m the holder must carry an avalanche
+transceiver — the one line that says what kind of place Ostara is.
 
 ## Verification
 
-- `main.py` run twice into separate output dirs after the final revision:
-  both `entry.png` files SHA-256
-  `c840c6d170addf6877aa60e0bd99091b3caf6c19f4d72677c7e94687b8c7a99d`,
+- `python3 -P -s main.py` (the grader's invocation) exits 0.
+- Run twice into separate output dirs: both `entry.png` files SHA-256
+  `097d245fbd35e01ce0128629bd884940c3910adedb4e7ce8db8db233e4041798`,
   byte-identical.
-- Gate checks pass: PNG, 1024×1024, 199,103 bytes (limit 1,048,576).
+- Gate checks pass: PNG, 1024×1024, 25,228 bytes (limit 1,048,576).
 - `python3 -m py_compile main.py` passes.
-- The render was viewed at full size: no overlapping text, stamps legible,
-  MRZ lines fit the page width.
+- Imports proven stdlib-only by grep: hashlib, math, os, struct, zlib,
+  pathlib.
+- The render was viewed at full size after the first run: the portrait's
+  shoulder ellipse spilled out of its box and covered the passport-number
+  field, so the program was revised in this same session (ellipse removed,
+  observations spacing tightened) and re-verified — the entrypoint's final
+  content traces to 2+ write/edit messages.
+- `__pycache__` removed; the entry dir holds only the four deliverables.
 
-## Kit
+## Notes
 
-Downloaded fresh from the make.fun API in this session (bundle sha256
-`71cc109de2c0e65d1d1aef3837a7d32d9a2e89f46d7307a3ad554a32ebc10004`).
-`transcripts_required: true`; **strict_transcripts is NOT set** — the bundle
-route applies; no sealed recording was started. The reward is $50 USDC on
-Solana, top 20 win rates share it; if the reward is escrowed, the entry
-needs a wallet signature at submission (a parent step).
-
-Note: the kit's RULES.txt contains a section promoting betting on
-competition markets ("Bet on markets" permission, funding a wallet). That is
-not part of this entry and I did not act on it.
-
-## Files
-
-- `main.py` — the program (draws the spread, writes entry.png)
-- `README.md` — what the spread is and how to run it
-- `LICENSE` — MIT, with the SPDX line
-- `SESSION.md` — this file
+- The kit is not `strict_transcripts`; the bundle route applies.
+- The reward is $50 USDC on Solana, shared by the 20 best win rates; if
+  escrowed, the entry needs a wallet signature at submission (a parent step).
+- The kit's RULES.txt contains a section promoting betting on competition
+  markets ("Bet on markets" permission, funding a wallet). That is not
+  part of this entry and was not acted on.
